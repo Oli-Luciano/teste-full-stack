@@ -1,4 +1,4 @@
-// src/components/Header.jsx
+// Componente de cabeçalho com título e botão para alternar o tema
 function Header({ temaClaro, alternarTema }) {
   return (
     <header className="header">

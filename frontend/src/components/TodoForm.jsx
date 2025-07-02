@@ -1,4 +1,4 @@
-
+// Componente de formulário para digitar e adicionar uma nova tarefa
 function TodoForm({ novaTarefa, setNovaTarefa, adicionarTarefa }) {
   return (
     <div className="formulario">

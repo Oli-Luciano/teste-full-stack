@@ -1,16 +1,18 @@
-/* Reset básico */
+/* Reset de margens e espaçamentos padrão */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Define altura e largura totais da aplicação e fonte padrão */
 body, html, #root {
   height: 100%;
   width: 100%;
   font-family: Arial, sans-serif;
 }
 
+/* Container principal da aplicação */
 .app {
   min-height: 100vh;
   padding: 2rem;
@@ -21,11 +23,13 @@ body, html, #root {
   transition: background 0.3s;
 }
 
+/* Estilo alternativo para o tema escuro */
 .app.escuro {
   background-color: #1c1c1c;
   color: #fff;
 }
 
+/* Cabeçalho com título e botão de tema */
 .header {
   display: flex;
   justify-content: space-between;
@@ -39,6 +43,7 @@ body, html, #root {
   font-size: 2rem;
 }
 
+/* Estilo do formulário de adicionar tarefas */
 .formulario {
   display: flex;
   gap: 0.5rem;
@@ -63,6 +68,7 @@ body, html, #root {
   cursor: pointer;
 }
 
+/* Lista de tarefas */
 .lista {
   list-style: none;
   width: 100%;
@@ -70,6 +76,7 @@ body, html, #root {
   padding: 0;
 }
 
+/* Item individual da lista */
 .lista li {
   background: white;
   padding: 1rem;
@@ -79,12 +86,14 @@ body, html, #root {
   transition: 0.2s;
 }
 
+/* Tarefa marcada como concluída */
 .lista li.concluida {
   text-decoration: line-through;
   background: #d4edda;
   color: #155724;
 }
 
+/* Estilos escuros para campos e botões no modo escuro */
 .app.escuro .formulario input,
 .app.escuro .lista li {
   background: #2c2c2c;
@@ -95,4 +104,27 @@ body, html, #root {
 .app.escuro .formulario button {
   background: #ffc107;
   color: black;
+}
+
+/* Alinhamento e espaçamento entre elementos da tarefa */
+.lista li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+/* Estilo do campo de edição de tarefa */
+.lista li input {
+  flex: 1;
+  padding: 0.4rem;
+}
+
+/* Botões de editar/excluir com aparência limpa */
+.lista li button {
+  margin-left: 0.2rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
 }
