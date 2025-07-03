@@ -8,6 +8,14 @@ function App() {
   const [temaClaro, setTemaClaro] = useState(true);
   const [tarefas, setTarefas] = useState([]);
   const [novaTarefa, setNovaTarefa] = useState('');
+  const [filtro, setFiltro] = useState('todas');
+
+  // Filtra as tarefas com base no filtro selecionado: retorna todas, apenas pendentes ou apenas concluídas
+  const tarefasFiltradas = tarefas.filter(t => {
+    if (filtro === 'pendentes') return !t.concluida;
+    if (filtro === 'concluidas') return t.concluida;
+    return true;
+  });
 
   // Alterna entre tema claro e escuro
   const alternarTema = () => setTemaClaro(!temaClaro);
@@ -47,13 +55,29 @@ function App() {
     <div className={temaClaro ? 'app claro' : 'app escuro'}>
       <Header temaClaro={temaClaro} alternarTema={alternarTema} />
       <main>
+        {/* Formulário para adicionar uma nova tarefa */}
         <TodoForm
           novaTarefa={novaTarefa}
           setNovaTarefa={setNovaTarefa}
           adicionarTarefa={adicionarTarefa}
         />
+
+        {/* Botões para filtrar a visualização das tarefas */}
+        <div className="filtros">
+          <button onClick={() => setFiltro('todas')} className={filtro === 'todas' ? 'ativo' : ''}>
+            Todas
+          </button>
+          <button onClick={() => setFiltro('pendentes')} className={filtro === 'pendentes' ? 'ativo' : ''}>
+            Pendentes
+          </button>
+          <button onClick={() => setFiltro('concluidas')} className={filtro === 'concluidas' ? 'ativo' : ''}>
+            Concluídas
+          </button>
+        </div>
+
+        {/* Lista de tarefas (filtradas), com funções de marcar como concluída, editar e excluir */}
         <TodoList
-          tarefas={tarefas}
+          tarefas={tarefasFiltradas}
           marcarComoConcluida={marcarComoConcluida}
           editarTarefa={editarTarefa}
           excluirTarefa={excluirTarefa}
@@ -62,5 +86,7 @@ function App() {
     </div>
   );
 }
+
+
 
 export default App;
