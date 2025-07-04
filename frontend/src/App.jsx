@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './components/header';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
@@ -9,6 +9,20 @@ function App() {
   const [tarefas, setTarefas] = useState([]);
   const [novaTarefa, setNovaTarefa] = useState('');
   const [filtro, setFiltro] = useState('todas');
+
+  // Carregar tarefas do backend ao iniciar o componente
+  useEffect(() => {
+    carregarTarefas();
+  }, []);
+
+  async function carregarTarefas() {
+    try {
+      const resposta = await api.get('/tarefas');
+      setTarefas(resposta.data);
+    } catch (error) {
+      console.error('Erro ao carregar tarefas', error);
+    }
+  }
 
   // Filtra as tarefas com base no filtro selecionado: retorna todas, apenas pendentes ou apenas concluídas
   const tarefasFiltradas = tarefas.filter(t => {

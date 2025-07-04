@@ -7,7 +7,7 @@ const PORT = 3001; // Porta do backend
 
 // Middleware
 app.use(cors());
-app.use(express.json()); // Permite ler JSON no corpo da requisição
+app.use(express.json());
 
 // Rotas
 app.use('/api/tarefas', tarefasRotas);
