@@ -1,32 +1,29 @@
-const API_URL = 'http://localhost:3001/tarefas';
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: 'http://localhost:3001/api'
+});
 
 export const listarTarefas = async () => {
-  const res = await fetch(API_URL);
-  return await res.json();
+  const res = await api.get('/tarefas');
+  return res.data;
 };
 
 export const adicionarTarefa = async (descricao) => {
-  const res = await fetch(API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ descricao })
-  });
-  return await res.json();
+  const res = await api.post('/tarefas', { titulo: descricao });
+  return res.data;
 };
 
 export const atualizarTarefa = async (id, dados) => {
-  const res = await fetch(`${API_URL}/${id}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(dados)
-  });
-  return await res.json();
+  const res = await api.put(`/tarefas/${id}`, dados);
+  return res.data;
 };
 
 export const deletarTarefa = async (id) => {
-  await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+  await api.delete(`/tarefas/${id}`);
 };
 
 export const marcarComoConcluida = async (id) => {
-  await fetch(`${API_URL}/${id}/concluir`, { method: 'PATCH' });
+  await api.patch(`/tarefas/${id}/concluir`);
 };
+export default api;

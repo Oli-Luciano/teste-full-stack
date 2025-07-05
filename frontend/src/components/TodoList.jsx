@@ -8,7 +8,7 @@ function TodoList({ tarefas, marcarComoConcluida, editarTarefa, excluirTarefa })
   // Inicia a edição de uma tarefa
   const iniciarEdicao = (tarefa) => {
     setModoEdicao(tarefa.id);
-    setTextoEditado(tarefa.texto);
+    setTextoEditado(tarefa.titulo);
   };
 
   // Salva o novo texto editado da tarefa
@@ -34,7 +34,7 @@ function TodoList({ tarefas, marcarComoConcluida, editarTarefa, excluirTarefa })
           ) : (
             <>
               <span onClick={() => marcarComoConcluida(tarefa.id)}>
-                {tarefa.texto}
+                {tarefa.titulo}
               </span>
               <button onClick={() => iniciarEdicao(tarefa)}>✏️</button>
               <button onClick={() => excluirTarefa(tarefa.id)}>🗑️</button>

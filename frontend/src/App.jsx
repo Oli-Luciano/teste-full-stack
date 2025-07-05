@@ -2,6 +2,13 @@ import { useState, useEffect } from 'react';
 import Header from './components/header';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
+import {
+  listarTarefas,
+  adicionarTarefa as apiAdicionar,
+  atualizarTarefa,
+  deletarTarefa,
+  marcarComoConcluida as apiConcluir
+} from './services/api';
 import './App.css';
 
 function App() {
@@ -10,73 +17,79 @@ function App() {
   const [novaTarefa, setNovaTarefa] = useState('');
   const [filtro, setFiltro] = useState('todas');
 
-  // Carregar tarefas do backend ao iniciar o componente
   useEffect(() => {
     carregarTarefas();
   }, []);
 
-  async function carregarTarefas() {
+  const carregarTarefas = async () => {
     try {
-      const resposta = await api.get('/tarefas');
-      setTarefas(resposta.data);
+      const dados = await listarTarefas();
+      setTarefas(dados);
     } catch (error) {
       console.error('Erro ao carregar tarefas', error);
     }
-  }
+  };
 
-  // Filtra as tarefas com base no filtro selecionado: retorna todas, apenas pendentes ou apenas concluídas
+  const adicionarTarefa = async () => {
+    if (novaTarefa.trim() === '') return;
+    try {
+      const nova = await apiAdicionar(novaTarefa);
+      setTarefas([...tarefas, nova]);
+      setNovaTarefa('');
+    } catch (error) {
+      console.error('Erro ao adicionar tarefa', error);
+    }
+  };
+
+  const marcarComoConcluida = async (id) => {
+    try {
+      await apiConcluir(id);
+      setTarefas(tarefas.map(t =>
+        t.id === id ? { ...t, concluida: !t.concluida } : t
+      ));
+    } catch (error) {
+      console.error('Erro ao marcar como concluída', error);
+    }
+  };
+
+  const editarTarefa = async (id, novoTexto) => {
+    try {
+      await atualizarTarefa(id, { titulo: novoTexto });
+      setTarefas(tarefas.map(t =>
+        t.id === id ? { ...t, titulo: novoTexto } : t
+      ));
+    } catch (error) {
+      console.error('Erro ao editar tarefa', error);
+    }
+  };
+
+  const excluirTarefa = async (id) => {
+    try {
+      await deletarTarefa(id);
+      setTarefas(tarefas.filter(t => t.id !== id));
+    } catch (error) {
+      console.error('Erro ao excluir tarefa', error);
+    }
+  };
+
   const tarefasFiltradas = tarefas.filter(t => {
     if (filtro === 'pendentes') return !t.concluida;
     if (filtro === 'concluidas') return t.concluida;
     return true;
   });
 
-  // Alterna entre tema claro e escuro
   const alternarTema = () => setTemaClaro(!temaClaro);
-
-  // Adiciona uma nova tarefa à lista
-  const adicionarTarefa = () => {
-    if (novaTarefa.trim() === '') return;
-    const nova = {
-      id: Date.now(),
-      texto: novaTarefa,
-      concluida: false
-    };
-    setTarefas([...tarefas, nova]);
-    setNovaTarefa('');
-  };
-
-  // Marca ou desmarca uma tarefa como concluída
-  const marcarComoConcluida = (id) => {
-    setTarefas(tarefas.map(t =>
-      t.id === id ? { ...t, concluida: !t.concluida } : t
-    ));
-  };
-
-  // Edita o texto de uma tarefa existente
-  const editarTarefa = (id, novoTexto) => {
-    setTarefas(tarefas.map(t =>
-      t.id === id ? { ...t, texto: novoTexto } : t
-    ));
-  };
-
-  // Remove uma tarefa da lista
-  const excluirTarefa = (id) => {
-    setTarefas(tarefas.filter(t => t.id !== id));
-  };
 
   return (
     <div className={temaClaro ? 'app claro' : 'app escuro'}>
       <Header temaClaro={temaClaro} alternarTema={alternarTema} />
       <main>
-        {/* Formulário para adicionar uma nova tarefa */}
         <TodoForm
           novaTarefa={novaTarefa}
           setNovaTarefa={setNovaTarefa}
           adicionarTarefa={adicionarTarefa}
         />
 
-        {/* Botões para filtrar a visualização das tarefas */}
         <div className="filtros">
           <button onClick={() => setFiltro('todas')} className={filtro === 'todas' ? 'ativo' : ''}>
             Todas
@@ -89,7 +102,6 @@ function App() {
           </button>
         </div>
 
-        {/* Lista de tarefas (filtradas), com funções de marcar como concluída, editar e excluir */}
         <TodoList
           tarefas={tarefasFiltradas}
           marcarComoConcluida={marcarComoConcluida}
@@ -100,7 +112,5 @@ function App() {
     </div>
   );
 }
-
-
 
 export default App;
