@@ -1,18 +1,18 @@
-const mysql = require('mysql2');
+import mysql from 'mysql2';
 
 const conexao = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
-  database: 'tarefas_db'  
+  database: 'tarefas_db'
 });
 
-conexao.connect((erro) => {
-  if (erro) {
-    console.error('Erro ao conectar ao banco de dados:', erro);
-    return;
+conexao.connect((err) => {
+  if (err) {
+    console.error('Erro ao conectar ao banco de dados:', err);
+  } else {
+    console.log('✅ Conectado ao banco de dados MySQL');
   }
-  console.log('✅ Conectado ao banco de dados MySQL!');
 });
 
-module.exports = conexao;
+export default conexao;
