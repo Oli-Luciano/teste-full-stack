@@ -1,25 +1,37 @@
 import conexao from '../banco.js';
 
+// Objeto Tarefa contendo métodos para manipular tarefas no banco de dados
 const Tarefa = {
-  listarTarefas: (callback) => {
-    conexao.query('SELECT * FROM tarefas', callback);
+  // Lista todas as tarefas associadas a um usuário específico
+  listarTarefasPorUsuario: (usuarioId, callback) => {
+    const sql = 'SELECT * FROM tarefas WHERE usuario_id = ?';
+    conexao.query(sql, [usuarioId], callback);
   },
 
-  criarTarefa: (titulo, callback) => {
-    conexao.query('INSERT INTO tarefas (titulo, concluida) VALUES (?, false)', [titulo], callback);
+  // Cria uma nova tarefa associada a um usuário (por padrão, não concluída)
+  criarTarefaParaUsuario: (titulo, usuarioId, callback) => {
+    const sql = 'INSERT INTO tarefas (titulo, concluida, usuario_id) VALUES (?, false, ?)';
+    conexao.query(sql, [titulo, usuarioId], callback);
   },
 
-  atualizarTarefa: (id, titulo, callback) => {
-    conexao.query('UPDATE tarefas SET titulo = ? WHERE id = ?', [titulo, id], callback);
+  // Atualiza o título de uma tarefa específica pertencente ao usuário
+  atualizarTarefa: (id, usuarioId, titulo, callback) => {
+    const sql = 'UPDATE tarefas SET titulo = ? WHERE id = ? AND usuario_id = ?';
+    conexao.query(sql, [titulo, id, usuarioId], callback);
   },
 
-  marcarConcluida: (id, callback) => {
-    conexao.query('UPDATE tarefas SET concluida = true WHERE id = ?', [id], callback);
+  // Marca uma tarefa como concluída, garantindo que pertence ao usuário
+  marcarConcluida: (id, usuarioId, callback) => {
+    const sql = 'UPDATE tarefas SET concluida = true WHERE id = ? AND usuario_id = ?';
+    conexao.query(sql, [id, usuarioId], callback);
   },
 
-  deletarTarefa: (id, callback) => {
-    conexao.query('DELETE FROM tarefas WHERE id = ?', [id], callback);
+  // Deleta uma tarefa específica do usuário
+  deletarTarefa: (id, usuarioId, callback) => {
+    const sql = 'DELETE FROM tarefas WHERE id = ? AND usuario_id = ?';
+    conexao.query(sql, [id, usuarioId], callback);
   }
 };
 
+// Exporta o objeto Tarefa com todos os métodos definidos
 export default Tarefa;
