@@ -1,0 +1,91 @@
+/* Container principal que ocupa toda a altura da tela, centraliza o formulário 
+   e aplica um fundo escuro com um padrão listrado diagonal em laranja translúcido */
+.login-container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0d0d0d;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 153, 0, 0.1),
+    rgba(255, 153, 0, 0.1) 1px,
+    transparent 1px,
+    transparent 40px
+  );
+}
+
+/* Estilo do formulário: layout em coluna, fundo escuro, sombra laranja, 
+   cantos arredondados, espaçamento interno e largura fixa */
+.login-form {
+  background: #1a1a1a;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(255, 153, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 300px;
+}
+
+/* Título centralizado e em branco */
+.login-form h1 {
+  text-align: center;
+  color: #fff;
+}
+
+/* Campos de input com fundo escuro, texto branco e bordas arredondadas */
+.login-form input {
+  padding: 0.8rem;
+  border: none;
+  border-radius: 8px;
+  background: #2c2c2c;
+  color: #fff;
+}
+
+/* Placeholder com cor mais clara para melhor contraste */
+.login-form input::placeholder {
+  color: #aaa;
+}
+
+/* Botão de ação estilizado com cor laranja, texto em negrito, efeito hover e transição suave */
+.login-form button {
+  padding: 0.8rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #ff9900;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.login-form button:hover {
+  background-color: #ffb84d;
+}
+
+/* Estilização do link abaixo do formulário, com foco em legibilidade, 
+   cor contrastante, e efeito de hover que adiciona sublinhado */
+.login-link {
+  margin-top: 1rem;
+  text-align: center;
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.login-link span {
+  margin-right: 0.3rem;
+}
+
+.login-link a {
+  color: #ff9900;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.login-link a:hover {
+  color: #ffb84d;
+  text-decoration: underline;
+}

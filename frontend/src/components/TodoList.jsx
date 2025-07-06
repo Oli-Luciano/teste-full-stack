@@ -21,22 +21,29 @@ function TodoList({ tarefas, marcarComoConcluida, editarTarefa, excluirTarefa })
     <ul className="lista">
       {tarefas.map((tarefa) => (
         <li key={tarefa.id} className={tarefa.concluida ? 'concluida' : ''}>
+          {/* Verifica se a tarefa está em modo de edição */}
           {modoEdicao === tarefa.id ? (
             <>
+              {/* Campo para editar o título da tarefa */}
               <input
                 type="text"
                 value={textoEditado}
                 onChange={(e) => setTextoEditado(e.target.value)}
               />
+              {/* Botão para salvar a edição */}
               <button onClick={() => salvarEdicao(tarefa.id)}>Salvar</button>
+              {/* Botão para cancelar a edição */}
               <button onClick={() => setModoEdicao(null)}>Cancelar</button>
             </>
           ) : (
             <>
+              {/* Exibe o título da tarefa, clicável para marcar como concluída */}
               <span onClick={() => marcarComoConcluida(tarefa.id)}>
                 {tarefa.titulo}
               </span>
+              {/* Botão para iniciar a edição da tarefa */}
               <button onClick={() => iniciarEdicao(tarefa)}>✏️</button>
+              {/* Botão para excluir a tarefa */}
               <button onClick={() => excluirTarefa(tarefa.id)}>🗑️</button>
             </>
           )}
@@ -47,3 +54,4 @@ function TodoList({ tarefas, marcarComoConcluida, editarTarefa, excluirTarefa })
 }
 
 export default TodoList;
+
