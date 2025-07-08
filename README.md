@@ -83,8 +83,32 @@ Este projeto é uma aplicação web Full Stack de gerenciamento de tarefas (To-D
 git clone https://github.com/Oli-Luciano/teste-full-stack.git
 cd teste-full-stack
 ```
+---
 
-### 2. Configure o banco de dados
+### 2. Configure o ambiente
+
+#### Crie o arquivo `.env`:
+
+Copie o `.env.example`:
+
+```bash
+cp backend/.env.example backend/.env
+```
+
+Edite o `.env` com suas informações:
+
+```env
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=sua_senha
+DB_NAME=tarefas_db
+PORT=3001
+JWT_SECRET=segredo_super_secreto
+```
+
+---
+
+### 3. Configure o banco de dados
 
 No MySQL:
 
@@ -117,7 +141,7 @@ ON DELETE CASCADE;
 
 ---
 
-### 3. Backend (porta 3001)
+### 4. Backend (porta 3001)
 
 ```bash
 cd backend
@@ -127,7 +151,7 @@ node app.js
 
 ---
 
-### 4. Frontend (porta 5173)
+### 5. Frontend (porta 5173)
 
 ```bash
 cd frontend
